@@ -15,7 +15,8 @@ func (l *Lexer) NextToken() token.Token {
 	switch l.ch {
 	case '=':
 		if (l.peekChar() == '=') {
-			tok.Literal = string(l.ch) + string(l.readChar())
+			ch := l.ch
+			tok.Literal = string(ch) + string(l.readChar())
 			tok.Type = token.EQ
 		} else {
 			tok = newToken(token.ASSIGN, l.ch)			
@@ -42,7 +43,8 @@ func (l *Lexer) NextToken() token.Token {
 		tok = newToken(token.GT, l.ch)
 	case '!':
 		if (l.peekChar() == '=') {
-			tok.Literal = string(l.ch) + string(l.readChar())
+			ch := l.ch
+			tok.Literal = string(ch) + string(l.readChar())
 			tok.Type = token.NOT_EQ
 		} else {
 			tok = newToken(token.BANG, l.ch)
@@ -67,7 +69,6 @@ func (l *Lexer) NextToken() token.Token {
 			tok = newToken(token.ILLEGAL, l.ch)
 		}
 	}
-
 	l.readChar()
 	return tok
 }

@@ -6,7 +6,7 @@ import (
 )
 
 func TestNextToken(t *testing.T) {
-	input := ` lt five = 5; lt ten = 10; lt add = fn(x, y) { x + y };
+	input := `lt five = 5; lt ten = 10; lt add = fn(x, y) { x + y };
 lt result = add(five, ten); !-/*5; 5 < 10 > 5 if tr rt fl el rt tr == !=`
 	tests := []struct {
 		expectedType token.TokenType
