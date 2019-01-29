@@ -26,5 +26,17 @@ const (
 	RBRACE = "}"
 
 	FUNCTION = "FUNCTION"
-	MAKE = "MAKE"
+	LET = "LET"
 )
+
+var keywords = map[string]TokenType {
+	"fn": FUNCTION,
+	"lt": LET,
+}
+
+func LookupIdent(ident string) TokenType {
+	if tok, ok := keywords[ident]; ok {
+		return tok
+	}
+	return IDENT
+}
