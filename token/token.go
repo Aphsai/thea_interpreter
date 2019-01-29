@@ -16,7 +16,16 @@ const (
 
 	ASSIGN = "="
 	PLUS = "+"
+	MINUS = "-"
+	ASTERISK = "*"
+	SLASH = "/"
 
+	BANG = "!"
+	NOT_EQ = "!="
+	EQ = "=="
+	LT = "<"
+	GT = ">"
+	
 	COMMA = ","
 	SEMICOLON = ";"
 
@@ -27,11 +36,21 @@ const (
 
 	FUNCTION = "FUNCTION"
 	LET = "LET"
+	IF = "IF"
+	ELSE = "ELSE"
+	RETURN = "RETURN"
+	TRUE = "TRUE"
+	FALSE = "FALSE"
 )
 
 var keywords = map[string]TokenType {
 	"fn": FUNCTION,
 	"lt": LET,
+	"if": IF,
+	"el": ELSE,
+	"rt": RETURN,
+	"tr": TRUE,
+	"fl": FALSE,
 }
 
 func LookupIdent(ident string) TokenType {
