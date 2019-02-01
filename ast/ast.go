@@ -1,7 +1,7 @@
 package ast
 
 import "thea_interpreter/token"
-
+n
 type Node interface {
 	TokenLiteral() string
 }
