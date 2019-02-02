@@ -1,7 +1,7 @@
 package ast
 
 import "thea_interpreter/token"
-n
+
 type Node interface {
 	TokenLiteral() string
 }
@@ -44,4 +44,3 @@ type Identifier struct {
 
 func (i *Identifier) expressionNode() {}
 func (i *Identifier) TokenLiteral() string { return i.Token.Literal }
-
