@@ -13,7 +13,7 @@ type (
 )
 
 const (
-	_int = iota
+	_ int = iota
 	LOWEST
 	EQUALS 
 	LESSGREATER
