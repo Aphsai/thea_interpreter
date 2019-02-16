@@ -15,10 +15,10 @@ type (
 const (
 	_ int = iota
 	LOWEST
-	EQUALS 
+	EQUALS
 	LESSGREATER
 	SUM
-	PRODUCT 
+	PRODUCT
 	PREFIX
 	CALL
 )
@@ -143,4 +143,14 @@ func (p *Parser) parseExpressionStatement() *ast.ExpressionStatement {
 		p.nextToken()
 	}
 	return stmt
+}
+
+func (p *Parser) parseExpression(precedence int) ast.Expression {
+	prefix := p.prefixParseFns[p.curToken.Type]
+	if prefix == nil {
+		return nil
+	}
+	leftExp := prefix()
+
+	return leftExp
 }
