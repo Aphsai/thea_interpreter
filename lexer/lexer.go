@@ -89,7 +89,7 @@ func (l *Lexer) readToken(isValidChar func(ch byte) bool) string {
 }
 
 func isLetter(ch byte) bool {
-	return 'a' <= ch && ch <= 'z' || 'A' <= ch && ch <= 'Z' || ch == '_' 
+	return 'a' <= ch && ch <= 'z' || 'A' <= ch && ch <= 'Z' || ch == '_'
 }
 
 func isDigit(ch byte) bool {
@@ -120,7 +120,7 @@ func (l *Lexer) readChar () byte {
 func (l *Lexer) peekChar() byte {
 	if l.readPosition >= len(l.input) {
 		return 0
-	} 
+	}
 	return l.input[l.readPosition]
 }
 
