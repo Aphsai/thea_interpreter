@@ -99,6 +99,34 @@ func testLetStatement(t *testing.T, s ast.Statement, name string) bool {
 	return true
 }
 
+func TestBooelanExpression(t *testing.T) {
+	input := "tr;"
+
+	l := lexer.New(input)
+	p := New(l)
+	program := p.ParseProgram()
+	checkParserErrors(t, p)
+
+	if len(program.Statements) != 1 {
+		t.Fatalf("program has an inordinate amount of statements. got=%d", len(program.Statements))
+	}
+	stmt, ok := program.Statements[0].(*ast.ExpressionStatement)
+	if !ok {
+		t.Fatalf("program.Statements[0] is not (*ast.ExpressionStatement). got=%T", program.Statements[0])
+	}
+
+	bo, ok := stmt.Expression.(*ast.Boolean)
+	if !ok {
+		t.Fatalf("exp not *ast.Boolean. got=%T", stmt.Expression)
+	}
+	if bo.Value != true {
+		t.Fatalf("bo.Value not %s, got=%v", "true", bo.Value)
+	}
+	if bo.TokenLiteral() != "tr" {
+		t.Errorf("bo.TokenLiteral not %s. got=%s", bo, bo.TokenLiteral())
+	}
+
+}
 func TestIdentifierExpression(t *testing.T) {
 	input := "foobar;"
 
@@ -258,13 +286,14 @@ func testIdentifier(t *testing.T, exp ast.Expression, value string) bool {
 		t.Errorf("ident.Value not %s. got=%s", value, ident.Value)
 		return false
 	}
-	
+
 	if ident.TokenLiteral() != value {
 		t.Errorf("ident.TokenLiteral not %s. got=%s", value, ident.TokenLiteral())
 		return false
 	}
 	return true
 }
+
 
 func TestParsingInfixExpression(t *testing.T) {
 	infixTests := []struct {
