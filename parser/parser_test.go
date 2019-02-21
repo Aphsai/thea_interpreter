@@ -83,7 +83,7 @@ func testLetStatement(t *testing.T, s ast.Statement, name string) bool {
 
 	letStmt, ok := s.(*ast.LetStatement)
 	if !ok {
-		t.Errorf("s not *ast.LetStatement. got=%T", s)
+		t.Errorf("is not *ast.LetStatement. got=%T", s)
 		return false
 	}
 
@@ -99,6 +99,38 @@ func testLetStatement(t *testing.T, s ast.Statement, name string) bool {
 	return true
 }
 
+func TestLetStatement(t *testing.T) {
+	tests := []struct {
+		input string
+		expectedIdentifier string
+		expectedValue interface{}
+	}{
+		{"lt x = 5;", "x", 5},
+		{"lt y = tr;", "y", true},
+		{"lt foobar = y;", "foobar", "y"},
+	}
+
+	for _, tt := range tests {
+		l := lexer.New(tt.input)
+		p := New(l)
+		program := p.ParseProgram()
+		checkParserErrors(t, p)
+
+		if len(program.Statements) != 1 {
+			t.Fatalf("program.Statements contains an inordinate amount of statements. got=%d", len(program.Statements))
+		}
+
+		stmt := program.Statements[0]
+		if !testLetStatement(t, stmt, tt.expectedIdentifier) {
+			return
+		}
+
+		val := stmt.(*ast.LetStatement).Value
+		if !testLiteralExpression(t, val, tt.expectedValue) {
+			return
+		}
+	}
+}
 func TestBooelanExpression(t *testing.T) {
 	input := "tr;"
 
@@ -230,6 +262,8 @@ func testLiteralExpression (t *testing.T, exp ast.Expression, expected interface
 		return testIntegerLiteral(t, exp, v)
 	case string:
 		return testIdentifier(t, exp, v)
+	case bool:
+		return testBooleanLiteral(t, exp, v)
 	}
 	t.Errorf("type of exp not handled. got=%T", exp)
 	return false
@@ -294,7 +328,20 @@ func testIdentifier(t *testing.T, exp ast.Expression, value string) bool {
 	return true
 }
 
+func testBooleanLiteral(t *testing.T, exp ast.Expression, value bool) bool {
+	bo, ok := exp.(*ast.Boolean)
+	if !ok {
+		t.Errorf("exp not *ast.Boolean. got=%T", exp)
+		return false
+	}
 
+	if bo.Value != value {
+		t.Errorf("bo.Value not %t. got=%t", value, bo.Value)
+		return false
+	}
+
+	return true
+}
 func TestParsingInfixExpression(t *testing.T) {
 	infixTests := []struct {
 		input string
