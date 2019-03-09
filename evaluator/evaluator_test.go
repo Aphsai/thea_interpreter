@@ -101,8 +101,8 @@ func TestIfElseExpressions(t *testing.T) {
 		input string
 		expected interface{}
 	}{
-		{"if (true) { 10 }", 10},
-		{"if (false) { 10 }", nil},
+		{"if (tr) { 10 }", 10},
+		{"if (fl) { 10 }", nil},
 		{"if (1) { 10 }", 10},
 		{"if (1 < 2) { 10 }", 10},
 	}
@@ -131,10 +131,10 @@ func TestReturnStatements(t *testing.T) {
 		input string
 		expected int64
 	}{
-		{"return 10;", 10},
-		{"return 10; 9;", 10},
-		{"return 2 * 5; 9;", 10},
-		["9; return 2 * 5; 9;", 10},
+		{"rt 10;", 10},
+		{"rt 10; 9;", 10},
+		{"rt 2 * 5; 9;", 10},
+		{"9; rt 2 * 5; 9;", 10},
 	}
 
 	for _, tt := range tests {
@@ -149,27 +149,27 @@ func TestErrorHandling(t *testing.T) {
 		expectedMessage string
 	}{
 		{
-			"5 + true;",
+			"5 + tr;",
 			"type mismatch: INTEGER + BOOLEAN",
 		},
 		{
-			"5 + true; 5;".
+			"5 + tr; 5;",
 			"type mismatch: INTEGER + BOOLEAN",
 		},
 		{
-			"-true",
+			"-tr",
 			"unknown operator: -BOOLEAN",
 		},
 		{
-			"true + false;",
+			"tr + fl;",
 			"unknown operator: BOOLEAN + BOOLEAN",
 		},
 		{
-			"5; true + false; 5",
+			"5; tr + fl; 5",
 			"unknown operator: BOOLEAN + BOOLEAN",
 		},
 		{
-			"if (10 > 1) { true + false; }",
+			"if (10 > 1) { tr + fl; }",
 			"unknown operator: BOOLEAN + BOOLEAN",
 		},
 	}
@@ -182,7 +182,7 @@ func TestErrorHandling(t *testing.T) {
 			continue
 		}
 
-		if errorObj.Message != tt.expectedMessage {
+		if errObj.Message != tt.expectedMessage {
 			t.Errorf("wrong error message. expected=%q, got=%q",
 			tt.expectedMessage, errObj.Message)
 		}
