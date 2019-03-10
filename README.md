@@ -8,7 +8,7 @@ Though, I imagine reading something like `if (tr) rt fl; el rt tr;` (if true, re
 Also, I think most keywords are just kind of useless? Like if I'm writing a recursive fibonacci function, I don't need to see the entire return keyword, my eyes just glaze over it, so it helps in filtering out noise in programming code.
 
 ```
-fn fib(lt n) {
+lt fib = fn(n) {
 	if (n < 2) rt n;
 	el rt fib(n - 1) + fib(n - 2);	
 }
