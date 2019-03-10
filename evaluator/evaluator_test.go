@@ -10,9 +10,10 @@ import (
 func testEval(input string) object.Object {
 	l := lexer.New(input)
 	p := parser.New(l)
+	env := object.NewEnvironment()
 	program := p.ParseProgram()
 
-	return Eval(program)
+	return Eval(program, env)
 }
 
 func TestEvalIntegerExpression(t *testing.T) {
@@ -172,6 +173,10 @@ func TestErrorHandling(t *testing.T) {
 			"if (10 > 1) { tr + fl; }",
 			"unknown operator: BOOLEAN + BOOLEAN",
 		},
+		{
+			"a",
+			"identifier not found: a",
+		},
 	}
 
 	for _, tt := range tests {
@@ -186,5 +191,20 @@ func TestErrorHandling(t *testing.T) {
 			t.Errorf("wrong error message. expected=%q, got=%q",
 			tt.expectedMessage, errObj.Message)
 		}
+	}
+}
+
+func TestLetStatements(t *testing.T) {
+	tests := []struct {
+		input string
+		expected int64
+	}{
+		{"lt a = 5; a;", 5},
+		{"lt a = 5 * 5; a;", 25},
+		{"lt a = 5; lt b = 5; a * b;", 25},
+	}
+
+	for _, tt := range tests {
+		testIntegerObject(t, testEval(tt.input), tt.expected)
 	}
 }
