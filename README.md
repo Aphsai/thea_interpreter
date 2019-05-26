@@ -6,7 +6,7 @@ I have an idea for something a little more ambitious, but I need to understand t
 
 I don't really have a big plan for Thea at the moment, I think it's just going to be another quirky language, right now the gimmick is that the keywords are only two characters because I hate memorizing long winded and verbose bits of code.
 
-Though, I imagine reading something like `if (tr) rt fl; el rt tr;` (if true, return false, else, return true). It looks kind of cute to me (albeit, maybe a little hard to read).
+Though, I imagine reading something like `if (tr) rt fl; el rt tr;` (if true, return false, else, return true) is a bit difficult to read. It looks kind of cute to me.
 
 Also, I think most keywords are just kind of useless? Like if I'm writing a recursive fibonacci function, I don't need to see the entire return keyword, my eyes just glaze over it, so it helps in filtering out noise in programming code.
 
